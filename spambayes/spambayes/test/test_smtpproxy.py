@@ -60,6 +60,7 @@ import re
 import sys
 import socket
 import getopt
+import asyncore
 import operator
 import unittest
 import thread
@@ -68,7 +69,6 @@ import smtplib
 import sb_test_support
 sb_test_support.fix_sys_path()
 
-from spambayes import asyncore
 from spambayes import Dibbler
 from spambayes import tokenizer
 from spambayes.Options import options

@@ -170,7 +170,7 @@ except ImportError:
     import StringIO
 
 import sys, re, time, traceback, base64
-import socket, cgi, urlparse, webbrowser
+import socket, asyncore, asynchat, cgi, urlparse, webbrowser
 
 try:
     "".rstrip("abc")
@@ -185,7 +185,6 @@ else:
 ASYNC_CHAT_MAP_PARAM_AVAILABLE = sys.version.split()[0] >= '2.6'
 
 from spambayes.port import md5
-from spambayes import asyncore, asynchat
 
 class BrighterAsyncChat(asynchat.async_chat):
     """An asynchat.async_chat that doesn't give spurious warnings on

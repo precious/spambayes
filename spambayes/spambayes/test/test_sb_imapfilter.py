@@ -9,6 +9,7 @@ import socket
 import threading
 import imaplib
 import unittest
+import asyncore
 import StringIO
 
 try:
@@ -21,7 +22,6 @@ sb_test_support.fix_sys_path()
 
 from spambayes import message
 from spambayes import Dibbler
-from spambayes import asyncore
 from spambayes.Options import options
 from spambayes.classifier import Classifier
 from sb_imapfilter import run, BadIMAPResponseError, LoginFailure

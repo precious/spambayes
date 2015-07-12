@@ -76,6 +76,7 @@ Chris
 malformed1 = """From: ta-meyer@ihug.co.nz
 Subject: No body, and no separator"""
 
+import asyncore
 import socket
 import operator
 import re
@@ -86,7 +87,6 @@ import sys, os
 import sb_test_support
 sb_test_support.fix_sys_path()
 
-from spambayes import asyncore
 from spambayes import Dibbler
 from spambayes import tokenizer
 from spambayes.UserInterface import UserInterfaceServer
