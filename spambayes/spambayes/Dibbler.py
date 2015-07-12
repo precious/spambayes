@@ -182,6 +182,8 @@ except TypeError:
 else:
     RSTRIP_CHARS_AVAILABLE = True
 
+ASYNC_CHAT_MAP_PARAM_AVAILABLE = sys.version.split()[0] >= '2.6'
+
 from spambayes.port import md5
 from spambayes import asyncore, asynchat
 
@@ -193,7 +195,12 @@ class BrighterAsyncChat(asynchat.async_chat):
 
     def __init__(self, conn=None, map=None):
         """See `asynchat.async_chat`."""
-        asynchat.async_chat.__init__(self, conn)
+        if ASYNC_CHAT_MAP_PARAM_AVAILABLE:
+            asynchat.async_chat.__init__(self, conn, map)
+        else:
+            # in python 2.4 and maybe 2.5 async_chat constructor doesn't accept 'map' parameter
+            asynchat.async_chat.__init__(self, conn)
+            asynchat.async_chat.set_socket(self, conn, map)
         self.__map = map
         self._closed = False
 
@@ -367,8 +374,7 @@ class _HTTPHandler(BrighterAsyncChat):
     def __init__(self, clientSocket, server, context):
         # Grumble: asynchat.__init__ doesn't take a 'map' argument,
         # hence the two-stage construction.
-        BrighterAsyncChat.__init__(self, map=context._map)
-        BrighterAsyncChat.set_socket(self, clientSocket, context._map)
+        BrighterAsyncChat.__init__(self, conn=clientSocket, map=context._map)
         self._context = context
         self._server = server
         self._request = ''
